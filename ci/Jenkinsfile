@@ -15,7 +15,9 @@ node {
             sh "ls -la"
         }
         stage('Terraform init'){
-            sh "cd networking && terraform init -reconfigure -backend-config=backend.conf"
+            withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>]) {
+                sh "cd networking && terraform init -reconfigure -backend-config=backend.conf"
+            }
         }
         stage('Terraform validate'){
             sh "cd networking terraform fmt && terraform validate"
