@@ -15,10 +15,10 @@ node {
             sh "ls -la"
         }
         stage('Terraform init'){
-            sh "terraform init"
+            sh "cd networking && terraform init"
         }
         stage('Terraform validate'){
-            sh "terraform fmt && terraform validate"
+            sh "cd networking terraform fmt && terraform validate"
         }
 
     } catch(caughtError) {
