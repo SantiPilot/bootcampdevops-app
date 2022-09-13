@@ -1,0 +1,32 @@
+#!/usr/bin/env groovy
+
+// Inicializamos variable para guardar el error
+def err = null
+
+node {
+    // Creamos el try catch para obtener el error si sucede
+    try{
+        stage('Checkout') {
+            // Clonamos el repo
+            checkout([
+                $class: 'GitSCM', 
+                branches: [[name: 'BRANCH_NAME']], 
+                extensions: [], 
+                userRemoteConfigs: [[
+                    credentialsId: 'CREDENTIALS_ID', 
+                    url: 'REPO_URL'
+                ]]
+            ])
+        }
+    } catch(caughtError) {
+        err = caughtError
+        currentBuild.result = 'FAILURE'
+    } finally {
+        stage('Clean') {
+            cleanWs()
+        }
+        if(err) {
+            throw err
+        }
+    }
+}
