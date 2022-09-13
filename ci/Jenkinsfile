@@ -1,4 +1,4 @@
- #!/usr/bin/env groovy
+#!/usr/bin/env groovy
 
 // Inicializamos variable para guardar el error
 def err = null
