@@ -14,7 +14,10 @@ node {
             url: 'https://github.com/SantiPilot/bootcampdevops-app.git']]])
             sh "ls -la"
         }
-             
+        stage('Terraform init'){
+            sh "terraform init"
+        }
+
     } catch(caughtError) {
         err = caughtError
         currentBuild.result = 'FAILURE'
