@@ -11,12 +11,14 @@ node {
             branches: [[name: '*/main']], 
             extensions: [], 
             userRemoteConfigs: [[credentialsId: 'github_token', 
-            url: 'https://github.com/SantiPilot/bootcampdevops-app.git']]])
+            url: 'https://github.com/SantiPilot/bootcampdevops-app.git'
+            ]]
+        ])
             sh "ls -la"
-        }
+    }
 
-        dir('iac/terraform/networking'){
-            stage('Terraform Init') {
+    dir('iac/terraform/networking'){
+        stage('Terraform Init') {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', 
                 accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
                 credentialsId: 'aws-terraform', 
