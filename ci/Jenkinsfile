@@ -15,17 +15,19 @@ node {
             sh "ls -la"
         }
 
-        dir: "networking"
-        stage('Terraform init'){
+        dir("iac/terraform/networking"){ 
+            stage('Terraform init'){
                 sh "whoami && echo $PATH"
                 sh "terraform init -reconfigure -backend-config=backend.conf"
+            }
+            stage('Terraform validate'){
+                sh "terraform fmt && terraform validate"
+            }
+            stage('Terraform plan'){
+                sh "terraform plan -var='owner=santigo'"
+            }
         }
-        stage('Terraform validate'){
-            sh "terraform fmt && terraform validate"
-        }
-        stage('Terraform plan'){
-            sh "terraform plan"
-        }
+        
 
     } catch(caughtError) {
         err = caughtError
