@@ -17,6 +17,7 @@ node {
 
         dir: "networking"
         stage('Terraform init'){
+                sh "whoami && echo $PATH"
                 sh "terraform init -reconfigure -backend-config=backend.conf"
         }
         stage('Terraform validate'){
