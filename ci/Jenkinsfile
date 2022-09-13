@@ -14,13 +14,16 @@ node {
             url: 'https://github.com/SantiPilot/bootcampdevops-app.git']]])
             sh "ls -la"
         }
+
+        dir: "networking"
         stage('Terraform init'){
-            withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>]) {
-                sh "cd networking && terraform init -reconfigure -backend-config=backend.conf"
-            }
+                sh "terraform init -reconfigure -backend-config=backend.conf"
         }
         stage('Terraform validate'){
-            sh "cd networking terraform fmt && terraform validate"
+            sh "terraform fmt && terraform validate"
+        }
+        stage('Terraform plan'){
+            sh "terraform plan"
         }
 
     } catch(caughtError) {
