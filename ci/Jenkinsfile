@@ -15,10 +15,15 @@ node {
             sh "ls -la"
         }
 
-        dir("iac/terraform/networking"){ 
-            stage('Terraform init'){
-                sh "whoami && echo $PATH"
-                sh "terraform init -reconfigure -backend-config=backend.conf"
+        dir('iac/terraform/networking'){
+            stage('Terraform Init') {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', 
+                accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+                credentialsId: 'aws-terraform', 
+                secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                    sh "terraform init -reconfigure -backend-config=backend.conf"
+                }
+                    
             }
             stage('Terraform validate'){
                 sh "terraform fmt && terraform validate"
