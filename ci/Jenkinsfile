@@ -29,7 +29,13 @@ node {
                 sh "terraform fmt && terraform validate"
             }
             stage('Terraform plan'){
-                sh "terraform plan -var='owner=santigo'"
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', 
+                accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+                credentialsId: 'aws-terraform', 
+                secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]){
+                    sh "terraform plan -var='owner=santiago'"
+                }
+                
             }
         }
         
