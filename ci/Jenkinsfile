@@ -17,6 +17,9 @@ node {
         stage('Terraform init'){
             sh "terraform init"
         }
+        stage('Terraform validate'){
+            sh "terraform fmt && terraform validate"
+        }
 
     } catch(caughtError) {
         err = caughtError
