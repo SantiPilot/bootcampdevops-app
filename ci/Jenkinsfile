@@ -3,7 +3,7 @@
 // Inicializamos variable para guardar el error
 def err = null
 
-node {
+node('ec2|terraform') {
     // Creamos el try catch para obtener el error si sucede
     try{
         stage('Checkout'){
